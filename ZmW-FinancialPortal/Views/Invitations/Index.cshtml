@@ -1,0 +1,26 @@
+﻿@model ZmW_FinancialPortal.Models.Invitation
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @:@Html.AntiForgeryToken()
+    <h4>Invite Someone To Your Household.</h4>
+    <hr />
+
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.ToEmail, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ToEmail, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ToEmail)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Send" />
+        </div>
+    </div>
+}/html>

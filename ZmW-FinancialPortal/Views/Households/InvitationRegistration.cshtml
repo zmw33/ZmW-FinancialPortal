@@ -1,0 +1,137 @@
+﻿@model ZmW_FinancialPortal.ViewModels.AcceptInvite
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Zachary Wilson">
+    <meta name="keywords" content="au theme template">
+    <link rel="icon" class="fav" href="~/Img/FinPortFavIcon.jpg" />
+    <!-- Title Page-->
+    <title>Register - Financial Portal</title>
+    <!-- Fontfaces CSS-->
+    <link href="~/Scripts/font-face.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <!-- Bootstrap CSS-->
+    <link href="~/Scripts/bootstrap.min.css" rel="stylesheet" media="all">
+    <!-- Vendor CSS-->
+    <link href="~/Scripts/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/animate.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/slick.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/Scripts/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="~/Scripts/theme.css" rel="stylesheet" media="all">
+</head>
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container scroll">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="~/Img/register.jpg" alt="Sign Up">
+                            </a>
+                        </div>
+                        <div class="login-form">
+                            @using (Html.BeginForm("InvitationRegistration", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "Multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(c => c.Code)
+                                @Html.HiddenFor(c => c.Email)
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.Label("First Name", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Last Name", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Display Name", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Avatar", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        <input name="image" type="file" class="form-control" id="fileUpload" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Password", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Confirm Password", new { @class = "col-md-6 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Register</button>
+
+                                <div class="register-link">
+                                    <p>
+                                        Already have account?
+                                        @Html.ActionLink("Sign In", "Login", "Account")
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Jquery JS-->
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="~/Scripts/slick.min.js">
+    </script>
+    <script src="~/Scripts/wow.min.js"></script>
+    <script src="~/Scripts/animsition.min.js"></script>
+    <script src="~/Scripts/bootstrap-progressbar.min.js">
+    </script>
+    <script src="~/Scripts/jquery.waypoints.min.js"></script>
+    <script src="~/Scripts/jquery.counterup.min.js">
+    </script>
+    <script src="~/Scripts/circle-progress.min.js"></script>
+    <script src="~/Scripts/perfect-scrollbar.js"></script>
+    <script src="~/Scripts/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/select2.min.js">
+    </script>
+    <!-- Main JS-->
+    <script src="~/Scripts/main.js"></script>
+</body>
+</html>
+<!-- end document-->
+
+<style>
+    .scroll {
+        overflow: auto;
+        max-height: 600px;
+    }
+</style>

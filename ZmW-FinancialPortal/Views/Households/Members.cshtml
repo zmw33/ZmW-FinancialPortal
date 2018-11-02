@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ZmW_FinancialPortal.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<body>
+    <div class="page-container">
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.Label("Name")
+                                </th>
+                                <th>
+                                    @Html.Label("Display Name")
+                                </th>
+                                <th>
+                                    @Html.Label("Avatar")
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => item.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.DisplayName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.AvatarPath)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

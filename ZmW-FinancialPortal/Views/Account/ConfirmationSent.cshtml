@@ -1,0 +1,20 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<body>
+    <div class="page-container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Thank you for confirming your email!</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                @Html.ActionLink("Return To Login", "Login", "Account")
+            </div>
+        </div>
+</body>
