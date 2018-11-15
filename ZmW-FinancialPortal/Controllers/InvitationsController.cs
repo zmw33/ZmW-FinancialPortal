@@ -19,44 +19,6 @@ namespace ZmW_FinancialPortal.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Invite
-        //public ActionResult Invite()
-        //{
-        //    return View(db.Households.ToList());
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Invite(InviteEmailModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var to = model.ToEmail;
-        //            var from = "Financial<zacharywilsonm@gmail.com>";
-        //            var email = new MailMessage(from, to)
-        //            {
-        //                Subject = model.Subject,
-        //                Body = $"<p> Email From: <bold>{model.FromName}</bold> ({model.FromEmail})</p><p> Subject:</p><p>{model.Subject}</p><p> Message:</p><p>{model.Body}</p>",
-        //                IsBodyHtml = true
-        //            };
-
-
-        //            var svc = new Email ();
-        //            //await svc.SendAsync(email);
-
-        //            return View(new EmailModel());
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex.Message);
-        //            await Task.FromResult(0);
-        //        }
-        //    }
-        //    return View(model);
-        //}
-
         // GET: Invitations
         public ActionResult Index()
         {
@@ -113,11 +75,11 @@ namespace ZmW_FinancialPortal.Controllers
                 var from = ConfigurationManager.AppSettings["emailfrom"];
 
                 var callbackUrl = Url.Action("InvitationRegistration", "Account", new { email = newInvitation.Email, code = newInvitation.Code }, protocol: Request.Url.Scheme);
-
+                
                 var email = new MailMessage(from, newInvitation.Email)
                 {
                     Subject = "Household Invitation",
-                    Body = "You have been invited to join a household at https://zmw-financialportal.azurewebsites.net/. Please click <a href=\"" + callbackUrl + "\">here</a> to join the household.",
+                    Body = "You have been invited to join a household at https://ZmW-FinancialPortal.azurewebsites.net/. Please click <a href=\"" + callbackUrl + "\">here</a> to join the household.",
                     IsBodyHtml = true
                 };
                 var svc = new PersonalEmail();
@@ -132,7 +94,7 @@ namespace ZmW_FinancialPortal.Controllers
                 await Task.FromResult(0);
             }
 
-            return RedirectToAction("Index",  new { id = invitation.HouseholdId });
+            return RedirectToAction("Index", "Households",  new { id = invitation.HouseholdId });
         }
 
 

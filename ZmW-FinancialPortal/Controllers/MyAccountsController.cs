@@ -48,7 +48,7 @@ namespace ZmW_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Name,Balance,ReconciledBalance")] MyAccount myAccount)
+        public ActionResult Create([Bind(Include = "Id,HouseholdId,Description,Name,Balance,ReconciledBalance")] MyAccount myAccount)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace ZmW_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Balance,ReconciledBalance")] MyAccount myAccount)
+        public ActionResult Edit([Bind(Include = "Id,HouseholdId,Name,Description,Balance,ReconciledBalance")] MyAccount myAccount)
         {
             if (ModelState.IsValid)
             {

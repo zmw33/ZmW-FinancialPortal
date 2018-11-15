@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ZmW_FinancialPortal.Models;
 using ZmW_FinancialPortal.ViewModels;
+using ZmW_FinancialPortal.Helpers;
+using System.Collections.Generic;
 
 namespace ZmW_FinancialPortal.Controllers
 {
@@ -19,6 +21,9 @@ namespace ZmW_FinancialPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private MembersHelp memberHelp = new MembersHelp();
+        private HouseholdHelp houseHelp = new HouseholdHelp();
 
         public AccountController()
         {
@@ -151,22 +156,58 @@ namespace ZmW_FinancialPortal.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult InvitationRegistration(AcceptInvite model)
+        public async Task<ActionResult> InvitationRegistration(AcceptInvite model, HttpPostedFileBase Avatar)
         {
             var db = new ApplicationDbContext();
-            //Retrieve the Invitation using the incoming model.Code
-            var myInvitation = db.Invitations.FirstOrDefault(i => i.Code == model.Code);
 
-            //Run through a series of checks to ensure the Invitation is still valid
-            //1. Tell the user if the Invitation is Expired
-            //2. Tell the user if the Invitation has already een accepted
-            //3. Tell the user if the Invitation is invalid (possibly due to a more recent Invitation having been sent
-            //etc...
+            if (ModelState.IsValid)
+            {
+                var errorMsg = new List<string>();
 
-            //Create the user and change their HouseholdId to the HousholdId found in the Invitation record
+                //Retrieve the Invitation using the incoming model.Code
+                var myInvitation = db.Invitations.FirstOrDefault(i => i.Code == model.Code);
+                if (myInvitation.Accepted == true)
+                    errorMsg.Add("This invitation has already been accepted...");
 
-            //Redirect them to the Household Dashboard (or Index)
-            return RedirectToAction("Index", "Households", new { id = myInvitation.HouseholdId});
+                if (DateTime.Now > myInvitation.Expires)
+                    errorMsg.Add("This invitation had expired...");
+
+
+                if (Avatar != null)
+                {
+                    var fileName = Path.GetFileName(Avatar.FileName);
+                    Avatar.SaveAs(Path.Combine(Server.MapPath("~/Uploads/Avatars/"), fileName));
+                    model.AvatarPath = "/Uploads/Avatars/" + fileName;
+                }
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AvatarPath = model.AvatarPath
+                };
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+                memberHelp.AddUserToRole(user.Id, "Member");
+                houseHelp.AddUserToHousehold(user.Id, myInvitation.HouseholdId);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index", "Households", new { id = myInvitation.HouseholdId });
+                }
+                AddErrors(result);
+            }
+            //something went wrong
+            return View(model);
         }
 
         // GET: /Account/Register

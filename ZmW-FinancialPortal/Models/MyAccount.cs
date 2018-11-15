@@ -12,6 +12,7 @@ namespace ZmW_FinancialPortal.Models
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public decimal ReconciledBalance { get; set; }
+        public string Description { get; set; }
 
         public virtual Household Household { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }

@@ -8,7 +8,7 @@
 }
 
 <style>
-    .buttpad 
+    .buttpad {
         padding-left: 15px;
     }
 
@@ -17,7 +17,7 @@
         color: purple;
         -webkit-text-stroke-color: black;
         -webkit-text-stroke-width:2px;
-        font-size: 48px;
+        font-size: 69px;
         padding-bottom: 10px;
     }
 </style>
@@ -30,7 +30,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <span class="house">stuff</span>
+                            <span class="house">@Model.Name</span>
                         </div>
                     </div>
                     <div class="row">
@@ -45,37 +45,16 @@
                     <hr />
                     <div class="row m-t-25">
                         <div class="col-sm-6 col-lg-3">
-                            <div class="overview-item overview-item--c1">
+                            <div class="overview-item overview-item--c3">
                                 <div class="overview__inner">
                                     <div class="overview-box clearfix">
                                         <div class="icon">
-                                            <i class="zmdi zmdi-account-o"></i>
+                                            <i class="zmdi zmdi-account"></i>
                                         </div>
                                         <div class="text">
                                             <h2>@DashHelp.GetHouseholdMemberCount()</h2>
-                                            <span>members online</span>
+                                            <span>Members</span>
                                         </div>
-                                    </div>
-                                    <div class="overview-chart">
-                                        <canvas id="widgetChart1"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="overview-item overview-item--c2">
-                                <div class="overview__inner">
-                                    <div class="overview-box clearfix">
-                                        <div class="icon">
-                                            <i class="zmdi zmdi-shopping-cart"></i>
-                                        </div>
-                                        <div class="text">
-                                            <h2>388,688</h2>
-                                            <span>items solid</span>
-                                        </div>
-                                    </div>
-                                    <div class="overview-chart">
-                                        <canvas id="widgetChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -85,33 +64,42 @@
                                 <div class="overview__inner">
                                     <div class="overview-box clearfix">
                                         <div class="icon">
-                                            <i class="zmdi zmdi-calendar-note"></i>
+                                            <i class="zmdi zmdi-balance"></i>
                                         </div>
                                         <div class="text">
-                                            <h2>1,086</h2>
-                                            <span>this week</span>
+                                            <h2>@DashHelp.GetHouseholdBankCount()</h2>
+                                            <span>Accounts</span>
                                         </div>
-                                    </div>
-                                    <div class="overview-chart">
-                                        <canvas id="widgetChart3"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
-                            <div class="overview-item overview-item--c4">
+                            <div class="overview-item overview-item--c3">
                                 <div class="overview__inner">
                                     <div class="overview-box clearfix">
                                         <div class="icon">
                                             <i class="zmdi zmdi-money"></i>
                                         </div>
                                         <div class="text">
-                                            <h2>$1,060,386</h2>
-                                            <span>total earnings</span>
+                                            <h2>@DashHelp.GetHouseholdTransactionCount()</h2>
+                                            <span>Transactions</span>
                                         </div>
                                     </div>
-                                    <div class="overview-chart">
-                                        <canvas id="widgetChart4"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="overview-item overview-item--c3">
+                                <div class="overview__inner">
+                                    <div class="overview-box clearfix">
+                                        <div class="icon">
+                                            <i class="zmdi zmdi-chart"></i>
+                                        </div>
+                                        <div class="text">
+                                            <h2>@DashHelp.GetHouseholdBudgetItemCount()</h2>
+                                            <span>Budget Items</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -9,7 +9,6 @@ namespace ZmW_FinancialPortal.Models
     {
         public int Id { get; set; }
         public int MyAccountId { get; set; }
-        public string Type { get; set; }
         public int TransactionTypeId { get; set; }
         public int BudgetItemId { get; set; }
         public string EnteredById { get; set; }

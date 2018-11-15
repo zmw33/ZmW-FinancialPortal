@@ -1,9 +1,5 @@
 ﻿@model ZmW_FinancialPortal.ViewModels.InvitationViewModel
 
-@{
-    Layout = null;
-}
-
 <body>
     <div class="page-container">
         <!-- MAIN CONTENT-->
@@ -30,12 +26,12 @@
 
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Send" class="btn btn-default" />
+                                    <input type="submit" value="Send" class="btn btn-primary" />
                                 </div>
                             </div>
                         </div>
                     }
-                    <div>
+                    <div style="padding-left: 14px">
                         @Html.ActionLink("Back to List", "Index")
                     </div>
                 </div>

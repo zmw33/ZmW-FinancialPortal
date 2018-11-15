@@ -27,7 +27,7 @@
 //                    bankAccount.CurrentBalance += transaction.Amount;
 //                    break;
 //                case TransactionType.AdjustUp:
-//                    //bankAccount.CurrentBalance -= transaction.Amount;
+//                    //bankAccount.CurrentBalance += transaction.Amount;
 //                    break;
 //                case TransactionType.AdjustDown:
 //                    //bankAccount.CurrentBalance -= transaction.Amount;
