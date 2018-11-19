@@ -37,10 +37,13 @@ namespace ZmW_FinancialPortal.Controllers
         }
 
         // GET: BudgetItems/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
-            return View();
+            var newBudgetItem = new BudgetItem
+            {
+                BudgetId = id
+            };
+            return View(newBudgetItem);
         }
 
         // POST: BudgetItems/Create

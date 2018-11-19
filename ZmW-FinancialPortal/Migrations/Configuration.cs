@@ -108,23 +108,6 @@ namespace ZmW_FinancialPortal.Migrations
 
             var subId = userManager.FindByEmail("demomember2@mailinator.com").Id;
             userManager.AddToRole(subId, "Member");
-
-            context.TransactionTypes.AddOrUpdate(TransactionType => TransactionType.Name,
-               new TransactionType { Name = "Withdrawal" },
-               new TransactionType { Name = "Deposit" },
-               new TransactionType { Name = "AdjustUp" },
-               new TransactionType { Name = "AdjustDown" }
-               );
-
-            //context.BudgetItems.AddOrUpdate(BudgetItem => BudgetItem.Name,
-            //    new BudgetItem { Name = "Food" },
-            //    new BudgetItem { Name = "Transportation" },
-            //    new BudgetItem { Name = "Utilities" },
-            //    new BudgetItem { Name = "Phone/Internet" },
-            //    new BudgetItem { Name = "Miscellaneous" },
-            //    new BudgetItem { Name = "School" },
-            //    new BudgetItem { Name = "Pets" }
-            //    );
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -43,7 +44,10 @@ namespace ZmW_FinancialPortal
                 }
                 catch (Exception error)
                 {
-                    Console.WriteLine(error.Message);
+                    var tw = new StreamWriter(Path.Combine(HttpContext.Current.Server.MapPath("~/Errors/"), "Error_" + DateTime.Now + ".txt"), true);
+                    tw.WriteLine("The error message is: " + error.Message);
+                    tw.WriteLine("The inner exception is: " + error.InnerException);
+                    tw.Close();                 
                     await Task.FromResult(0);
 
                 }

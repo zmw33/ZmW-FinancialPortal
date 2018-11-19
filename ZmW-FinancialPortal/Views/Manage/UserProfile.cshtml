@@ -7,53 +7,57 @@
 
 
 
-    <br />
-    <h2><b>User Profile</b></h2>
-    <h3><em>Click @Html.ActionLink("here", "EditProfile", "Manage", new { userId = Model.Id }, null) to edit your profile.</em></h3>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+<body>
+    <div class="page-container">
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <h2><b>User Profile</b></h2>
+                    <h3><em>Click @Html.ActionLink("here", "EditProfile", "Manage", new { userId = Model.Id }, null) to edit your profile.</em></h3>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.FirstName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.LastName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DisplayName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.DisplayName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AvatarPath)
+                        </dt>
+                        <dd>
+                            @if (Model.AvatarPath != null)
+                            {
+                                <img class="img-responsive" src="@Model.AvatarPath" alt="">
+                            }
+                            else
+                            {
+                                <span><em>No Avatar Selected</em></span>
+                            }
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DisplayName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        @*<dt>
-                @Html.DisplayNameFor(model => model.ProfileImagePath)
-            </dt>
-
-            <dd>
-                @if (Model.ProfileImagePath != null)
-                {
-                    <img class="img-responsive" src="@Model.ProfileImagePath" alt="">
-                }
-
-            </dd>*@
-
-    </dl>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using ZmW_FinancialPortal.Models;
-using Microsoft.AspNet.Identity;
 using ZmW_FinancialPortal.Helpers;
+using ZmW_FinancialPortal.Models;
 
 namespace ZmW_FinancialPortal.Controllers
 {
@@ -118,26 +115,44 @@ namespace ZmW_FinancialPortal.Controllers
             return View(household);
         }
 
-        //// GET: Leave Household
-        //public ActionResult Leave()
-        //{
-        //    return View();
-        //}
+        // POST: Leave Household
+        public ActionResult Leave()
+        {
+            var userId = User.Identity.GetUserId();
+            if (User.IsInRole("HoH") == false)
+            {
+                var hhId = db.Users.Find(userId).HouseholdId;
+                RoleHelper.RemoveUserFromRole(userId, "HoH, Member");
+                HouseholdHelp.RemoveUserFromHouse(userId);
+                var users = db.Users.Where(u => u.HouseholdId == hhId).ToList();
 
-        //// POST: Leave Household
-        //public ActionResult Leave(Household household)
-        //{
-        //    if (User.IsInRole("HoH") == false)
-        //    {
-        //        var userId = User.Identity.GetUserId();
-        //        var houseHead = User.Identity.GetUserId();
-        //        HouseholdHelper.RemoveUserFromHouse(houseHead, household.Id);
-        //        RoleHelper.RemoveUserFromRole(userId, "HoH, Member");
-        //        return RedirectToAction("Index");
-        //    }
+                var memberHelp = new MembersHelp();
+                foreach(var user in users)
+                {
+                    if(memberHelp.IsUserInRole(user.Id, "Member"))
+                    {
+                        memberHelp.RemoveUserFromRole(user.Id, "Member");
+                        memberHelp.AddUserToRole(user.Id, "HoH");
+                        break;
+                    }
+                }
 
-        //    return RedirectToAction("Index", "Home");
-        //}
+                return RedirectToAction("Index");
+            }
+
+            else
+            {
+                MembersHelper.RemoveUserFromRole(userId, "Member");
+                HouseholdHelp.RemoveUserFromHouse(userId);
+                Household household = db.Households.Find(userId);
+                if (household.Members.Count == 0)
+                {
+                    household.Deleted = true;
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
 
         // GET: Households1/Delete/5
         public ActionResult Delete(int? id)

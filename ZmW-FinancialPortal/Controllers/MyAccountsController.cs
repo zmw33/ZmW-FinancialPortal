@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,6 +16,7 @@ namespace ZmW_FinancialPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: MyAccounts
+        [Authorize]
         public ActionResult Index()
         {
             var myAccounts = db.MyAccounts.Include(m => m.Household);
@@ -37,10 +39,21 @@ namespace ZmW_FinancialPortal.Controllers
         }
 
         // GET: MyAccounts/Create
+        [Authorize]
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if (user.HouseholdId == null)
+                return RedirectToAction("Login", "Account");
+            else
+            {
+                var newAccount = new MyAccount
+                {
+                    HouseholdId = Convert.ToInt32(user.HouseholdId)
+                };
+                return View(newAccount);
+            }        
         }
 
         // POST: MyAccounts/Create
@@ -57,7 +70,7 @@ namespace ZmW_FinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", myAccount.HouseholdId);
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", myAccount.HouseholdId);
             return View(myAccount);
         }
 

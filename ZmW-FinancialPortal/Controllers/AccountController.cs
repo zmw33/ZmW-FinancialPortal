@@ -13,6 +13,8 @@ using ZmW_FinancialPortal.Models;
 using ZmW_FinancialPortal.ViewModels;
 using ZmW_FinancialPortal.Helpers;
 using System.Collections.Generic;
+using System.Net.Mail;
+using System.Web.Configuration;
 
 namespace ZmW_FinancialPortal.Controllers
 {
@@ -186,6 +188,7 @@ namespace ZmW_FinancialPortal.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    DisplayName = model.DisplayName,
                     AvatarPath = model.AvatarPath
                 };
 
@@ -291,8 +294,28 @@ namespace ZmW_FinancialPortal.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+
+                try
+                {
+                    var email = new MailMessage(WebConfigurationManager.AppSettings["emailfrom"], model.Email)
+                    {
+                        Subject = "You have requested to reset your password...",
+                        Body = body,
+                        IsBodyHtml = true
+                    };
+
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);                    
+                }
+                catch (Exception ex)
+                {
+                    var tw = new StreamWriter(Path.Combine(Server.MapPath("~/Errors/"), "Error_" + DateTime.Now + ".txt"), true);
+                    tw.WriteLine("The error message is: " + ex.Message);
+                    tw.WriteLine("The inner exception is: " + ex.InnerException);
+                    tw.Close(); await Task.FromResult(0);
+                }
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

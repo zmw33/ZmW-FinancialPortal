@@ -18,7 +18,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44304</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -201,6 +201,7 @@
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MorrisBarController.cs" />
     <Compile Include="Controllers\MyAccountsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\TransactionTypesController.cs" />
@@ -217,9 +218,9 @@
     <Compile Include="Helpers\RoleHelper.cs" />
     <Compile Include="Helpers\TransactionHelp.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BudgetItem.cs" />
     <Compile Include="Models\MyAccount.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\BudgetItem.cs" />
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Household.cs" />
@@ -232,15 +233,15 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AcceptInvite.cs" />
     <Compile Include="ViewModels\InvitationViewModel.cs" />
+    <Compile Include="ViewModels\Morris.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\poppins\poppins-v5-latin-100.svg" />
     <Content Include="fonts\poppins\poppins-v5-latin-100italic.svg" />
     <Content Include="fonts\poppins\poppins-v5-latin-200.svg" />
@@ -261,6 +262,20 @@
     <Content Include="fonts\poppins\poppins-v5-latin-regular.svg" />
     <Content Include="Img\anonymous.png" />
     <Content Include="Img\FPIcon1.png" />
+    <Content Include="Img\glyphicons-halflings-white.png" />
+    <Content Include="Img\glyphicons-halflings.png" />
+    <Content Include="morris.css" />
+    <Content Include="morris.min.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <None Include="Scripts\jquery-1.7-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.7.js" />
+    <Content Include="Scripts\jquery-1.7.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.css" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\raphael-min.js" />
+    <Content Include="Scripts\raphael.js" />
     <Content Include="webfonts\fa-brands-400.svg" />
     <Content Include="webfonts\fa-regular-400.svg" />
     <Content Include="webfonts\fa-solid-900.svg" />
@@ -415,7 +430,6 @@
     <Content Include="Scripts\font-face.css" />
     <Content Include="Scripts\fontawesome-all.min.css" />
     <Content Include="Scripts\hamburgers.min.css" />
-    <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery.counterup.min.js" />
     <Content Include="Scripts\jquery.waypoints.min.js" />
     <Content Include="Scripts\main.js" />
@@ -509,20 +523,15 @@
     <Content Include="Views\MyAccounts\Index.cshtml" />
     <Content Include="Views\Households\Leave.cshtml" />
     <Content Include="Views\Account\InvitationRegistration.cshtml" />
+    <Content Include="Views\Shared\_HHTransTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
+    <Folder Include="Errors\" />
+    <Folder Include="Uploads\Avatars\" />
+    <Folder Include="Views\MorrisBar\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Scripts\Default\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\Default\jquery-3.3.1.min.map" />
@@ -545,7 +554,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50171</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50171/</IISUrl>
+          <IISUrl>https://localhost:44304/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

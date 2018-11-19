@@ -337,18 +337,8 @@ namespace ZmW_FinancialPortal.Controllers
         [Authorize]
         public ActionResult UserProfile(string userId)
         {
-            //if (string.IsNullOrEmpty(userId))
-            //userId = User.Identity.GetUserId();
             var Id = User.Identity.GetUserId();
             var user = db.Users.Find(Id);
-            //var profile = new ApplicationUser
-            //{
-            //    Id = user.Id,
-            //    LastName = user.LastName,
-            //    FirstName = user.FirstName,
-            //    DisplayName = user.DisplayName,
-            //    Email = user.Email
-            //};
 
             return View(user);
         }
@@ -361,19 +351,27 @@ namespace ZmW_FinancialPortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile(ApplicationUser profile)
+        public ActionResult EditProfile(ApplicationUser user)
         {
             if (ModelState.IsValid)
-            {
-                var user = db.Users.Find(profile.Id);
+            {              
                 db.Users.Attach(user);
-                user.FirstName = profile.FirstName;
-                user.LastName = profile.LastName;
-                user.DisplayName = profile.DisplayName;
-                user.Email = profile.Email;
-                user.UserName = profile.Email;
+                user.UserName = user.Email;
+
+                db.Entry(user).Property("UserName").IsModified = true;
+                db.Entry(user).Property("Email").IsModified = true;
 
                 db.SaveChanges();
+
+
+                //user.UserName = user.Email;               
+                //db.Entry(user).Property(u => u.FirstName).IsModified = true;
+                //db.Entry(user).Property(u => u.LastName).IsModified = true;
+                //db.Entry(user).Property(u => u.DisplayName).IsModified = true;
+                //db.Entry(user).Property(u => u.Email).IsModified = true;
+                //db.Entry(user).Property(u => u.UserName).IsModified = true;
+                //db.Entry(user).Property(u => u.AvatarPath).IsModified = true;
+                //db.SaveChanges();
                 return RedirectToAction("UserProfile", "Manage");
             }
             return View();

@@ -16,6 +16,7 @@ namespace ZmW_FinancialPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Budgets
+        [Authorize]
         public ActionResult Index()
         {
             var budgets = db.Budgets.Include(b => b.Household);
@@ -38,11 +39,32 @@ namespace ZmW_FinancialPortal.Controllers
         }
 
         // GET: Budgets/Create
+        [Authorize]
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if (user.HouseholdId == null)
+                return RedirectToAction("Login", "Account");
+
+            //Create an instance of a Budget in order to simply
+            //pass along the associated HouseholdId
+            var newBudget = new Budget
+            {
+                HouseholdId = Convert.ToInt32(user.HouseholdId)
+            };
+            return View(newBudget);
         }
+
+        //[Authorize]
+        //public ActionResult Create(int id)
+        //{
+        //    var newBudget = new Budget
+        //    {
+        //        HouseholdId = id
+        //    };
+        //    return View(newBudget);
+        //}
 
         // POST: Budgets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -58,7 +80,6 @@ namespace ZmW_FinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
             return View(budget);
         }
 

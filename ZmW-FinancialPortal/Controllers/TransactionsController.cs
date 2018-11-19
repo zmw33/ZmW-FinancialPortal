@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ZmW_FinancialPortal.Models;
+using ZmW_FinancialPortal.Helpers;
 
 namespace ZmW_FinancialPortal.Controllers
 {
@@ -16,10 +17,19 @@ namespace ZmW_FinancialPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Transactions
+        [Authorize]
         public ActionResult Index()
         {
             var transactions = db.Transactions.Include(t => t.MyAccount).Include(t => t.EnteredBy).Include(t => t.TransactionType);
             return View(transactions.ToList());
+        }
+
+        // GET: Void Transaction
+        public string Void(int id)
+        {
+            TransactionHelp.VoidTransaction(id);
+
+            return "Success";
         }
 
         // GET: Transactions/Details/5
@@ -38,10 +48,13 @@ namespace ZmW_FinancialPortal.Controllers
         }
 
         // GET: Transactions/Create
+        [Authorize]
         public ActionResult Create()
         {
-            //ViewBag.BankAccountId = new SelectList(db.MyAccounts, "Id", "Name");
-            //ViewBag.EnteredById = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+            var userId = User.Identity.GetUserId();
+            var hhId = db.Users.Find(userId).HouseholdId;
+            ViewBag.MyAccountId = new SelectList(db.MyAccounts.Where(a => a.HouseholdId == hhId), "Id", "Name");
+            ViewBag.BudgetItemId = new SelectList(db.BudgetItems.Where(d => d.Deleted == false), "Id", "Name");
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name");
             return View();
         }
@@ -51,22 +64,25 @@ namespace ZmW_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BankAccountId,TransactionTypeId,BudgetItemId,EnteredById,Description,Date,Amount,Reconciled,ReconciledAmount")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,MyAccountId,TransactionTypeId,BudgetItemId,Description,Amount")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-                var houseId = db.MyAccounts.Find(transaction.MyAccountId).HouseholdId;
                 transaction.Date = DateTime.Now;
                 transaction.EnteredById = User.Identity.GetUserId();
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Households", new { id = houseId });
+                TransactionHelp.AdjustBudget(transaction.Id);
+                TransactionHelp.AdjustAccount(transaction.Id);
+                TransactionHelp.AdjustBudgetItem(transaction.Id);
+
+                return RedirectToAction("Index", "Households");
             }
 
             ViewBag.MyAccountId = new SelectList(db.MyAccounts, "Id", "Name", transaction.MyAccountId);
             //ViewBag.EnteredById = new SelectList(db.ApplicationUser, "Id", "FirstName", transaction.EnteredById);
-            ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
+            //ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
             return View(transaction);
         }
 

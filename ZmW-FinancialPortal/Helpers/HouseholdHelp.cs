@@ -12,10 +12,15 @@ namespace ZmW_FinancialPortal.Helpers
 
         public void AddUserToHousehold(string userId, int HouseholdId)
         {
-            Household household = db.Households.Find(HouseholdId);
-            var newUser = db.Users.Find(userId);
+            //Household household = db.Households.Find(HouseholdId);
+            //var newUser = db.Users.Find(userId);
 
-            household.Members.Add(newUser);
+            //household.Members.Add(newUser);
+            //db.SaveChanges();
+
+            var user = db.Users.Find(userId);
+            db.Users.Attach(user);
+            user.HouseholdId = HouseholdId;
             db.SaveChanges();
         }
 

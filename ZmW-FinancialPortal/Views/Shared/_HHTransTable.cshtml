@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ZmW_FinancialPortal.Models.Transaction>
+
+<h2 class="title-1 m-b-25">Recent Transactions</h2>
+<div class="table-responsive table--no-card m-b-40">
+    <table class="table table-borderless table-striped table-earning">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Date")
+                </th>
+                <th>
+                    @Html.DisplayName("Transaction Type")
+                </th>
+                <th>
+                    @Html.DisplayName("Description")
+                </th>
+                <th>
+                    @Html.DisplayName("Amount")
+                </th>
+                <th>
+                    @Html.DisplayName("Reconciled Amount")
+                </th>
+                <th>
+                    @Html.DisplayName("Entered By")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReconciledAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnteredBy.FullName)
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

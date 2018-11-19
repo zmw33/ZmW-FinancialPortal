@@ -14,13 +14,13 @@ namespace ZmW_FinancialPortal.Models
         public decimal CurrentBalance { get; set; }
 
         public virtual Household Household { get; set; }
-        //public virtual ICollection<Transactions> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<BudgetItem> BudgetItems { get; set; }
         
         public Budget()
         {
             this.BudgetItems = new HashSet<BudgetItem>();
-            //this.Transactions = new HashSet<Transactions>();
+            this.Transactions = new HashSet<Transaction>();
         }
     }
 }

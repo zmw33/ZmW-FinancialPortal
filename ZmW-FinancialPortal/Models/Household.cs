@@ -15,6 +15,7 @@ namespace ZmW_FinancialPortal.Models
         public virtual ICollection<MyAccount> MyAccounts { get; set; }
         public virtual ICollection<ApplicationUser> Members { get; set; }
 
+        public bool Deleted { get; set; }
         public virtual ApplicationUser CreatedByUser { get; set; }
 
         public Household()
